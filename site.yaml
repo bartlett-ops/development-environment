@@ -1,4 +1,5 @@
 ---
 - hosts: development
   roles:
-    - core-tooling
+#    - core-tooling
+    - oh-my-zsh
