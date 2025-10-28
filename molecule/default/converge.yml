@@ -1,0 +1,23 @@
+- name: Fail if molecule group is missing
+  hosts: localhost
+  tasks:
+    - name: Print some info
+      ansible.builtin.debug:
+        msg: "{{ groups }}"
+
+    - name: Assert group existence
+      ansible.builtin.assert:
+        that: "'molecule' in groups"
+        fail_msg: |
+          molecule group was not found inside inventory groups: {{ groups }}
+
+- name: Bootstrap
+  hosts: molecule
+  gather_facts: false
+  tasks:
+    - name: Install python3
+      ansible.builtin.raw: dnf install -y python3
+      changed_when: false
+
+- name: Run playbook
+  ansible.builtin.import_playbook: ../../site.yaml

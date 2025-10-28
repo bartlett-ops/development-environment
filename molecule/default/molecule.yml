@@ -1,0 +1,7 @@
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+platforms:
+  - name: molecule-fedora
+    image: "fedora:42"

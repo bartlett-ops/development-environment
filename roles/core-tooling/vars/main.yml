@@ -7,4 +7,5 @@ packages:
   - thunderbird
   - curl
   - wget
+  - xclip
   
