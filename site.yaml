@@ -1,4 +1,4 @@
 ---
-- hosts: development
+- hosts: all
   roles:
     - core-tooling
