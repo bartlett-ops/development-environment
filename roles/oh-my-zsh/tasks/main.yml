@@ -1,0 +1,28 @@
+- name: Install packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+  loop: "{{ packages }}"
+
+- name: Check for oh-my-zsh directory
+  ansible.builtin.stat:
+    path: ~/.oh-my-zsh
+  register: install_directory
+
+- name: debug
+  ansible.builtin.debug: 
+    var: install_directory
+    
+- name: Install oh-my-zsh
+  when: not install_directory.stat.exists
+  block:
+    - name: Download oh-my-zsh installer
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/oh-my-zsh-installer.sh
+        mode: 0755
+    
+    - name: Run oh-my-zsh installer
+      ansible.builtin.command: /tmp/oh-my-zsh-installer.sh --unattended
+
+
