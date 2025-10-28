@@ -2,4 +2,5 @@
 - hosts: all
   roles:
 #    - core-tooling
-    - oh-my-zsh
+#    - oh-my-zsh
+    - dotfiles

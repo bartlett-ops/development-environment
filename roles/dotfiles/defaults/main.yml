@@ -1,0 +1,12 @@
+git_repo: git@github.com:bartlett-ops/dotfiles.git
+
+symlink_files:
+  - bashrc
+  - zshrc
+  - bash_aliases
+  - tmux.conf
+
+symlink_dirs:
+  - config/i3
+
+# Where does tomnoster theme go?
