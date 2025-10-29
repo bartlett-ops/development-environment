@@ -18,6 +18,24 @@
     - name: Install python3
       ansible.builtin.raw: dnf install -y python3
       changed_when: false
+    - name: Create tom user
+      ansible.builtin.user: 
+        name: tom
+        group: tom
+    - name: Create ssh dir
+      ansible.builtin.file:
+        path: ~/.ssh
+        state: directory
+        owner: "tom"
+        group: "tom"
+        mode: "0755"
+    - name: Copy ssh key
+      ansible.builtin.copy:
+        src: ~/.ssh/id_rsa
+        dest: ~/.ssh/id_rsa
+        owner: "tom"
+        group: "tom"
+        mode: "0600"
 
 - name: Run playbook
   ansible.builtin.import_playbook: ../../site.yaml

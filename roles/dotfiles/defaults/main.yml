@@ -1,12 +1,12 @@
 git_repo: git@github.com:bartlett-ops/dotfiles.git
 
-symlink_files:
+symlinks:
   - bashrc
   - zshrc
   - bash_aliases
   - tmux.conf
-
-symlink_dirs:
-  - config/i3
-
-# Where does tomnoster theme go?
+  - src: tomnoster.zsh-theme
+    dest: ~/.oh-my-zsh/themes/tomnoster.zsh-theme
+  - src: config/i3
+    dest: .config/i3
+    mode: '0700'

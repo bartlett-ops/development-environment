@@ -5,22 +5,12 @@
     version: master
   register: clone_dotfiles
 
-- name: Create dotfile symlink files
+- name: Create dotfile symlink
   ansible.builtin.file:
-    src: "{{ clone_dotfiles.dest }}/{{ item }}"
-    dest: "~/.{{ item }}"
+    src: "{{ item | selectattr('src', clone_dotfiles.dest + '/' + item) }}"
+    dest: "{{ item | selectattr('dest', '~/.{{ item }}') }}"
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: '0600'
+    mode: "{{ item | selectattr('mode', '0600') }}"
     state: link
-  loop: "{{ symlink_files }}"
-
-- name: Create dotfile symlinks dirs
-  ansible.builtin.file:
-    src: "{{ clone_dotfiles.dest }}/{{ item }}"
-    dest: "~/.{{ item }}"
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-    mode: '0700'
-    state: link
-  loop: "{{ symlink_dirs }}"
+  loop: "{{ symlinks }}"
