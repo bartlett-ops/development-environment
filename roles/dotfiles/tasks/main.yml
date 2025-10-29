@@ -1,16 +1,46 @@
 - name: Clone dotfiles
   ansible.builtin.git:
     repo: "{{ git_repo }}"
-    dest: ~/.dotfiles
+    dest: "{{ dotfiles_dir }}"
     version: master
-  register: clone_dotfiles
+
+- name: Create directories
+  ansible.builtin.file:
+    dest: "{{ item.dest | dirname }}"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ symlinks | selectattr('dest', 'defined') | list }}"  
 
 - name: Create dotfile symlink
   ansible.builtin.file:
-    src: "{{ item | selectattr('src', clone_dotfiles.dest + '/' + item) }}"
-    dest: "{{ item | selectattr('dest', '~/.{{ item }}') }}"
+    src: "{{ dotfiles_dir + item.src  }}"
+    dest: "{{ item.dest | default('~/.' + item.src) }}"
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: "{{ item | selectattr('mode', '0600') }}"
+    mode: "{{ item.mode | default('0600') }}"
     state: link
+    force: true
   loop: "{{ symlinks }}"
+
+- name: Create completion caches
+  block:
+    - name: Generate completion
+      ansible.builtin.command: "{{ item.command }}"
+      changed_when: false
+      loop:
+        - name: kubectl
+          command: ~/.local/bin/kubectl completion zsh
+        - name: helm
+          command: ~/.local/bin/helm completion zsh
+      register: completion_commands
+    - name: Create completion cache
+      ansible.builtin.copy:
+        content: "{{ item.stdout }}"
+        dest: "~/.local/cache/{{ item.item.name }}.source"
+        owner: "{{ ansible_user_uid }}"
+        group: "{{ ansible_user_gid }}"
+        mode: "0644"
+      loop: "{{ completion_commands.results }}"
+

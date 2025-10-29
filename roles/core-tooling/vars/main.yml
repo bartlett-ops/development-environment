@@ -1,11 +1,24 @@
 packages:
-  - git
-  - tmux
-  - make
-  - gcc
-  - firefox
-  - thunderbird
+  - containerd.io 
   - curl
+  - dnf-plugins-core
+  - docker-buildx-plugin 
+  - docker-ce 
+  - docker-ce-cli 
+  - docker-compose-plugin
+  - firefox
+  - gcc
+  - git
+  - make
+  - thunderbird
+  - tmux
+  - unzip
   - wget
   - xclip
+
+directories:
+  - ~/.local
+  - ~/.local/bin
+  - ~/.local/cache
+  - ~/code
   

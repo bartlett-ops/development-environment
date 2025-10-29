@@ -4,4 +4,4 @@ dependency:
     requirements-file: requirements.yml
 platforms:
   - name: molecule-fedora
-    image: "fedora:42"
+    image: "molecule-host"

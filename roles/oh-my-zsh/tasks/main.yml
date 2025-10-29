@@ -9,10 +9,6 @@
     path: ~/.oh-my-zsh
   register: install_directory
 
-- name: debug
-  ansible.builtin.debug: 
-    var: install_directory
-    
 - name: Install oh-my-zsh
   when: not install_directory.stat.exists
   block:
