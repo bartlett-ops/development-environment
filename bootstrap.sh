@@ -13,4 +13,6 @@ if [[ $(basename "${PWD}") != "development-environment" ]]; then
     cd development-environment
 fi
 
+git pull origin "$(git branch --show-current)"
+
 ansible-playbook -i ./hosts.yaml --ask-become-pass ./site.yaml
