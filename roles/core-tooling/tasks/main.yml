@@ -16,6 +16,11 @@
     description: "Fedora $releasever openh264 (From Cisco) - $basearch"
     gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch"
 
+- name: Install dnf plugins
+  become: true
+  ansible.builtin.package:
+    name: dnf-plugins-core
+
 - name: Add Docker CE repository for Fedora
   become: true
   ansible.builtin.command: 

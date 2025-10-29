@@ -1,7 +1,6 @@
 packages:
   - containerd.io 
   - curl
-  - dnf-plugins-core
   - docker-buildx-plugin 
   - docker-ce 
   - docker-ce-cli 
