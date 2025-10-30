@@ -132,3 +132,9 @@
         chdir: /tmp/awscli
         cmd: ./aws/install
 
+- name: Configure git preferences
+  community.general.git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  loop: "{{ git_config }}"

@@ -1,0 +1,9 @@
+git_config:
+  - name: pull.rebase
+    value: false
+  - name: user.email
+    value: "tom@bartlett.sh"
+  - name: user.name
+    value: Tom Bartlett
+  - name: init.defaultBranch
+    value: master
