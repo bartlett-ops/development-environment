@@ -25,7 +25,6 @@
     dest: "{{ item.stat.path }}.backup"
     remote_src: true
   loop: "{{ existing_files.results | community.general.json_query('[?stat.islnk==`false`]') }}"
-
   register: copied_files
 
 - name: Remove non symlinks

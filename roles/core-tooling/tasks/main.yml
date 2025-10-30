@@ -107,12 +107,12 @@
         creates: ~/.pyenv/src/realpath.o
 
 - name: Check if awscli installed
-  ansible.builtin.stat:
-    path: /usr/local/sbin/aws
-  register: awscli_file
+  ansible.builtin.command: command -v aws
+  change_when: false
+  register: awscli_command
 
 - name: Install awscli
-  when: not awscli_file.stat.exists
+  when: awscli_command.rc != 0
   block:
     - name: Create directory
       ansible.builtin.file:
