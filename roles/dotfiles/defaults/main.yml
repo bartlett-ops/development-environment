@@ -17,4 +17,7 @@ symlinks:
   - src: config/i3status
     dest: ~/.config/i3status
     mode: '0700'
+  - src: xfce4-terminal.xml
+    dest: ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml
+    mode: '0644'
 

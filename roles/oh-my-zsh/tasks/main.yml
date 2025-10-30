@@ -20,3 +20,42 @@
     
     - name: Run oh-my-zsh installer
       ansible.builtin.command: /tmp/oh-my-zsh-installer.sh --unattended
+
+- name: Set zsh as shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/zsh
+
+- name: Check if roboto_mono installed
+  ansible.builtin.stat:
+    path: /usr/local/share/fonts/roboto_mono
+  register: font_directory
+
+- name: Install nerd font
+  when: ! font_directory.stat.exists
+  block:
+    - name: Create fonts directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ font_directory.stat.path }}"
+        owner: root
+        group: root
+        mode: "0755"
+        state: directory
+    - name: Download Roboto Mono archive
+      become: true
+      ansible.builtin.unarchive:
+        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/RobotoMono.zip"
+        dest: "{{ fonts_directory.stat.path }}"
+        remote_src: true
+        owner: root
+        group: root
+        mode: "0644"
+    - name: Run restorecon
+      become: true
+      ansible.builtin.command: "restorecon -vFr {{ fonts_directory.path }}"
+    - name: Update font cache
+      become: true
+      ansible.builtin.command: fc-cache -v
+
