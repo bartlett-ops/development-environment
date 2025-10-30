@@ -47,14 +47,14 @@
       become: true
       ansible.builtin.unarchive:
         src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/RobotoMono.zip"
-        dest: "{{ fonts_directory }}"
+        dest: "{{ font_directory }}"
         remote_src: true
         owner: root
         group: root
         mode: "0644"
     - name: Run restorecon
       become: true
-      ansible.builtin.command: "restorecon -vFr {{ fonts_directory.path }}"
+      ansible.builtin.command: "restorecon -vFr {{ font_directory.path }}"
     - name: Update font cache
       become: true
       ansible.builtin.command: fc-cache -v
