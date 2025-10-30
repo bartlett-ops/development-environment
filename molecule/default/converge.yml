@@ -38,6 +38,19 @@
         owner: "tom"
         group: "tom"
         mode: "0600"
+      # Create i3 directory if it doesn't exist
+      # This allows us to test the dotfile file replacement behaviour
+    - name: Check for i3 config dir
+      ansible.builtin.stat:
+        path: ~/.config/i3
+      register: i3_dir
+    - name: Create i3 config dir
+      ansible.builtin.file:
+        path: ~/.config/i3
+        state: directory
+        owner: tom
+        group: tom
+      when: not i3_dir.stat.exists
 
 - name: Run playbook
   ansible.builtin.import_playbook: ../../site.yaml

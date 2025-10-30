@@ -13,6 +13,27 @@
     mode: "0755"
   loop: "{{ symlinks | selectattr('dest', 'defined') | list }}"  
 
+- name: Check existing files
+  ansible.builtin.stat:
+    path: "{{ item.dest | default('~/.' + item.src) }}"
+  loop: "{{ symlinks }}"
+  register: existing_files
+
+- name: Backup non symlinks
+  ansible.builtin.copy:
+    src: "{{ item.stat.path }}"
+    dest: "{{ item.stat.path }}.backup"
+    remote_src: true
+  loop: "{{ existing_files.results | community.general.json_query('[?stat.islnk==`false`]') }}"
+
+  register: copied_files
+
+- name: Remove non symlinks
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: absent
+  loop: "{{ copied_files.results }}"
+
 - name: Create dotfile symlink
   ansible.builtin.file:
     src: "{{ dotfiles_dir + item.src  }}"
