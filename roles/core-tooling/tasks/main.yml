@@ -108,7 +108,7 @@
 
 - name: Check if awscli installed
   ansible.builtin.command: command -v aws
-  change_when: false
+  changed_when: false
   register: awscli_command
 
 - name: Install awscli
