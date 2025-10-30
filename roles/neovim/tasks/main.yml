@@ -3,3 +3,18 @@
   ansible.builtin.package:
     name: "{{ item }}"
   loop: "{{ packages }}"
+
+- name: Git nvim path
+  command: which nvim
+  changed_when: false
+  register: which_nvim
+
+- name: Create vim symlink
+  become: true
+  ansible.builtin.file:
+    src: "{{ which_nvim.stdout }}"
+    dest: /home/tom/.local/bin/vim
+    state: link
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "0755"
