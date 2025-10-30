@@ -30,15 +30,15 @@
 - name: Check if roboto_mono installed
   ansible.builtin.stat:
     path: /usr/local/share/fonts/roboto_mono
-  register: font_directory
+  register: font_directory_stat
 
 - name: Install nerd font
-  when: ! font_directory.stat.exists
+  when: not font_directory_stat.stat.exists
   block:
     - name: Create fonts directory
       become: true
       ansible.builtin.file:
-        path: "{{ font_directory.stat.path }}"
+        path: "{{ font_directory }}"
         owner: root
         group: root
         mode: "0755"
@@ -47,7 +47,7 @@
       become: true
       ansible.builtin.unarchive:
         src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/RobotoMono.zip"
-        dest: "{{ fonts_directory.stat.path }}"
+        dest: "{{ fonts_directory }}"
         remote_src: true
         owner: root
         group: root

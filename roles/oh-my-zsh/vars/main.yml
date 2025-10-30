@@ -1,3 +1,5 @@
 packages:
   - git
   - zsh
+
+font_directory: /usr/local/share/fonts/roboto_mono
