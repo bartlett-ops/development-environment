@@ -54,7 +54,7 @@
         mode: "0644"
     - name: Run restorecon
       become: true
-      ansible.builtin.command: "restorecon -vFr {{ font_directory.path }}"
+      ansible.builtin.command: "restorecon -vFr {{ font_directory }}"
     - name: Update font cache
       become: true
       ansible.builtin.command: fc-cache -v
