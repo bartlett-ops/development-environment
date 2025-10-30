@@ -10,10 +10,9 @@
   register: which_nvim
 
 - name: Create vim symlink
-  become: true
   ansible.builtin.file:
     src: "{{ which_nvim.stdout }}"
-    dest: /home/tom/.local/bin/vim
+    dest: ~/.local/bin/vim
     state: link
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
