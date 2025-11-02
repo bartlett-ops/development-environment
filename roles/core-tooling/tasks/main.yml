@@ -35,7 +35,7 @@
 
 - name: Add Docker CE repository for Fedora
   become: true
-  ansible.builtin.command: 
+  ansible.builtin.command:
     cmd: dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
     creates: /etc/yum.repos.d/docker-ce.repo
 
@@ -48,6 +48,7 @@
 - name: Run lpf update
   become: true
   command: lpf update
+  failed_when: false
 
 - name: Create directories
   ansible.builtin.file:
@@ -65,7 +66,7 @@
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
     mode: "0755"
-    
+
 - name: Clone linux-scripts
   ansible.builtin.git:
     repo: git@github.com:bartlettt/linux-scripts.git
@@ -107,7 +108,7 @@
           dest: kubectl
         - src: helm-linux-amd64/helmenv
         - src: helm-linux-amd64/helm-wrapper
-          dest: helm 
+          dest: helm
 
 - name: Clone tfenv
   ansible.builtin.git:
@@ -177,7 +178,7 @@
   ansible.builtin.stat:
     path: /usr/share/backgrounds/custom.jpeg
   register: wallpaper_file
-     
+
 - name: Set wallpaper
   when: not wallpaper_file.stat.exists
   block:

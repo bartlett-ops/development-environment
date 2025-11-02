@@ -1,17 +1,18 @@
 packages:
   - blueman
-  - containerd.io 
+  - containerd.io
   - curl
-  - docker-buildx-plugin 
-  - docker-ce 
-  - docker-ce-cli 
+  - docker-buildx-plugin
+  - docker-ce
+  - docker-ce-cli
   - docker-compose-plugin
   - firefox
   - gcc
   - git
   - i3lock
-  - lpf-spotify-client
   - jq
+  - libglvnd-gles
+  - lpf-spotify-client
   - make
   - nordvpn
   - thunderbird
@@ -25,4 +26,3 @@ directories:
   - ~/.local/bin
   - ~/.local/cache
   - ~/code
-  
