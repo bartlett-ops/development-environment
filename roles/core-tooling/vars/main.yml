@@ -1,4 +1,5 @@
 packages:
+  - blueman
   - containerd.io 
   - curl
   - docker-buildx-plugin 
@@ -8,7 +9,11 @@ packages:
   - firefox
   - gcc
   - git
+  - i3lock
+  - lpf-spotify-client
+  - jq
   - make
+  - nordvpn
   - thunderbird
   - tmux
   - unzip

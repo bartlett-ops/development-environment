@@ -17,3 +17,5 @@ git pull origin "$(git branch --show-current)"
 
 ansible-galaxy install -r ./requirements.yml
 ansible-playbook -i ./hosts.yaml --ask-become-pass ./site.yaml
+
+echo "You should now reboot for all changes to take effect"

@@ -51,6 +51,19 @@
         owner: tom
         group: tom
       when: not i3_dir.stat.exists
+    - name: Create Root Directories
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      loop:
+        - /etc/X11
+        - /etc/X11/xorg.conf.d
+        - /usr/share/backgrounds
+        - /etc/lightdm
 
 - name: Run playbook
   ansible.builtin.import_playbook: ../../site.yaml

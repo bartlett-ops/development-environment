@@ -7,3 +7,5 @@ git_config:
     value: Tom Bartlett
   - name: init.defaultBranch
     value: master
+  - name: branch.autoSetupMerge
+    value: always

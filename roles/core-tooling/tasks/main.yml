@@ -16,6 +16,18 @@
     description: "Fedora $releasever openh264 (From Cisco) - $basearch"
     gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch"
 
+- name: Enable nordvpn repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: nordvpn
+    description: "nordvpn"
+    baseurl: "https://repo.nordvpn.com/yum/nordvpn/centos/x86_64"
+
+- name: Import nordvpn gpg key
+  become: true
+  ansible.builtin.rpm_key:
+    key: "https://repo.nordvpn.com/gpg/nordvpn_public.asc"
+
 - name: Install dnf plugins
   become: true
   ansible.builtin.package:
@@ -33,6 +45,10 @@
     name: "{{ item }}"
   loop: "{{ packages }}"
 
+- name: Run lpf update
+  become: true
+  command: lpf update
+
 - name: Create directories
   ansible.builtin.file:
     path: "{{ item }}"
@@ -41,6 +57,14 @@
     mode: "0755"
     state: directory
   loop: "{{ directories }}"
+
+- name: Install yq
+  ansible.builtin.get_url:
+    url: "https://github.com/mikefarah/yq/releases/download/v4.48.1/yq_linux_amd64"
+    dest: ~/.local/bin/yq
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "0755"
     
 - name: Clone linux-scripts
   ansible.builtin.git:
@@ -109,6 +133,7 @@
 - name: Check if awscli installed
   ansible.builtin.command: command -v aws
   changed_when: false
+  failed_when: false
   register: awscli_command
 
 - name: Install awscli
@@ -138,3 +163,40 @@
     value: "{{ item.value }}"
     scope: global
   loop: "{{ git_config }}"
+
+- name: Enable Middle Click emulation
+  become: true
+  ansible.builtin.copy:
+    src: middle-mouse-button.conf
+    dest: /etc/X11/xorg.conf.d/middle-mouse-button.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Check for custom wallpaper file
+  ansible.builtin.stat:
+    path: /usr/share/backgrounds/custom.jpeg
+  register: wallpaper_file
+     
+- name: Set wallpaper
+  when: not wallpaper_file.stat.exists
+  block:
+    - name: Generate Wallpaper
+      command: ~/code/linux-scripts/generate_wallpaper.sh
+      register: generate_wallpaper
+    - name: Download Wallpaper
+      become: true
+      ansible.builtin.get_url:
+        url: "{{ generate_wallpaper.stdout }}"
+        dest: /usr/share/backgrounds/custom.jpeg
+        owner: root
+        group: root
+        mode: 0644
+    - name: Set Wallpaper
+      become: true
+      community.general.ini_file:
+        path: /etc/lightdm/lightdm-gtk-greeter.conf
+        section: greeter
+        option: background
+        value: /usr/share/backgrounds/custom.jpeg
+        backup: true
