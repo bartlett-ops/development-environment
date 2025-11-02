@@ -12,7 +12,6 @@ packages:
   - i3lock
   - jq
   - libglvnd-gles
-  - lpf-spotify-client
   - make
   - nordvpn
   - thunderbird

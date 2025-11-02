@@ -45,11 +45,6 @@
     name: "{{ item }}"
   loop: "{{ packages }}"
 
-- name: Run lpf update
-  become: true
-  command: lpf update
-  failed_when: false
-
 - name: Create directories
   ansible.builtin.file:
     path: "{{ item }}"
