@@ -9,6 +9,7 @@ packages:
   - firefox
   - gcc
   - git
+  - golang
   - i3lock
   - jq
   - libglvnd-gles
@@ -20,6 +21,7 @@ packages:
   - wget
   - xclip
   - xfce4-power-manager
+  - zlib-devel
 
 directories:
   - ~/.local
