@@ -15,6 +15,7 @@ packages:
   - libglvnd-gles
   - make
   - nordvpn
+  - openssl-devel
   - thunderbird
   - tmux
   - unzip
@@ -22,6 +23,13 @@ packages:
   - xclip
   - xfce4-power-manager
   - zlib-devel
+  - bzip2-devel
+  - ncurses-devel
+  - libffi-devel
+  - readline-devel
+  - sqlite-devel
+  - xz-devel
+  - tk-devel
 
 directories:
   - ~/.local
