@@ -1,4 +1,5 @@
 packages:
+  - autorandr
   - blueman
   - containerd.io
   - curl
